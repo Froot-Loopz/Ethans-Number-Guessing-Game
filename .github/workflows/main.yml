@@ -1,0 +1,21 @@
+name: Build Game for Windows
+on: [workflow_dispatch] # This lets you start the build manually
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install PyInstaller
+        run: pip install pyinstaller
+      - name: Build EXE
+        run: pyinstaller --onefile --windowed main_number_guess_game.py # Replace main.py with your file name
+      - name: Upload Result
+        uses: actions/upload-artifact@v4
+        with:
+          name: MyGame-Windows
+          path: dist/*.exe
